@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: API de Ejemplo con Swagger
+  version: 1.0.0
+  description: API simple para demostrar Swagger con Node.js y Express
+servers:
+  - url: http://localhost:8080
+paths:
+  /:
+    get:
+      summary: Devuelve un mensaje de bienvenida.
+      responses:
+        200:
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bienvenido a la API soy el yamal
+  /suma:
+    get:
+      summary: Suma dos números.
+      parameters:
+        - in: query
+          name: a
+          schema:
+            type: integer
+          required: true
+          description: El primer número
+        - in: query
+          name: b
+          schema:
+            type: integer
+          required: true
+          description: El segundo número
+      responses:
+        200:
+          description: Resultado de la suma
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: integer
+                    example: 10
