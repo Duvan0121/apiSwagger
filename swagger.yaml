@@ -1,17 +1,106 @@
 openapi: 3.0.0
 info:
-  title: API de Ejemplo con Swagger
+  title: API de Jugadores de Fútbol
+  description: API para gestionar jugadores de fútbol.
   version: 1.0.0
-  description: API simple para demostrar Swagger con Node.js y Express
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:3000
 paths:
-  /:
+  /jugadores:
     get:
-      summary: Devuelve un mensaje de bienvenida.
+      summary: Obtener todos los jugadores
       responses:
-        200:
-          description: Operación exitosa
+        '200':
+          description: Lista de jugadores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jugador'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jugador'
+    post:
+      summary: Añadir un nuevo jugador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JugadorNuevo'
+      responses:
+        '200':
+          description: Jugador añadido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jugador'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Jugador'
+    put:
+      summary: Reemplazar todos los jugadores
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JugadorNuevo'
+      responses:
+        '200':
+          description: Jugadores reemplazados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jugador'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jugador'
+  /jugadores/{id}:
+    patch:
+      summary: Actualizar parcialmente un jugador
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JugadorActualizado'
+      responses:
+        '200':
+          description: Jugador actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jugador'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Jugador'
+    delete:
+      summary: Eliminar un jugador por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Jugador eliminado
           content:
             application/json:
               schema:
@@ -19,31 +108,52 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Bienvenido a la API soy el yamal
-  /suma:
-    get:
-      summary: Suma dos números.
-      parameters:
-        - in: query
-          name: a
-          schema:
-            type: integer
-          required: true
-          description: El primer número
-        - in: query
-          name: b
-          schema:
-            type: integer
-          required: true
-          description: El segundo número
-      responses:
-        200:
-          description: Resultado de la suma
-          content:
-            application/json:
+            application/x-yaml:
               schema:
                 type: object
                 properties:
-                  result:
-                    type: integer
-                    example: 10
+                  message:
+                    type: string
+
+components:
+  schemas:
+    Jugador:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Lionel Messi
+        posicion:
+          type: string
+          example: Delantero
+        numero:
+          type: integer
+          example: 10
+        equipo:
+          type: string
+          example: Inter Miami
+    JugadorNuevo:
+      type: object
+      properties:
+        nombre:
+          type: string
+        posicion:
+          type: string
+        numero:
+          type: integer
+        equipo:
+          type: string
+    JugadorActualizado:
+      type: object
+      properties:
+        nombre:
+          type: string
+        posicion:
+          type: string
+        numero:
+          type: integer
+        equipo:
+          type: string
